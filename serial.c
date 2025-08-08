@@ -174,17 +174,25 @@ static ssize_t serial_read_data(struct iiod_client_pdata *io_data,
 	enum sp_return sp_ret;
 	ssize_t ret = 0;
 
+	printf("SAI: serial_read_data called with timeout_ms=%u, len=%ld\n", timeout_ms, len);
+
 	while (true) {
 		if (timeout_ms && time_left_ms <= 0)
 			break;
+
+		printf("SAI: timeout value before sp_nb_read = %lld\n", time_left_ms);
 
 		sp_ret = sp_nonblocking_read(pdata->port, buf, len);
 		ret = (ssize_t) libserialport_to_errno(sp_ret);
 		if (ret || pdata->shutdown)
 			break;
 
+		printf("SAI: sp_nonblocking_read returned %zd, time_left_ms=%lld\n", ret, time_left_ms);
+
 		sleep_one_ms();
 		time_left_ms--;
+		
+		printf("SAI: time_left_ms after sleep_one_ms = %lld\n", time_left_ms);
 	}
 
 	if (ret == 0) {
@@ -322,7 +330,7 @@ const struct iio_backend iio_serial_backend = {
 	.name = "serial",
 	.uri_prefix = "serial:",
 	.ops = &serial_ops,
-	.default_timeout_ms = 1000,
+	.default_timeout_ms = 100, //SAI: changed SAIDO to 100
 };
 
 static const struct iiod_client_ops serial_iiod_client_ops = {
