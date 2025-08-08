@@ -4,6 +4,7 @@
 - **cmake** installed on your system
 - **Visual Studio 2022** installed with the C++ pack  
   *(Community Edition is okay too if you face issues with the Pro version download)*
+> **Note:** The next step of installing dependencies can be skipped if you have the deps.zip extracted to the path `c/deps`.
 - **Dependencies** as required by [Building libiio in Visual Studio (Analog Devices Wiki)](https://wiki.analog.com/resources/tools-software/linux-software/libiio)
 > **Note:** The dependencies are not included in the repository, so you will need to install them manually.
 - **libserialport** dependency:
@@ -19,13 +20,10 @@
 
 ## Easy Build Steps
 
-1. Go to the [my_build](http://_vscodecontentref_/0) folder.
-2. Run `full_build.bat` to build the DLLs and generate executables for the C programs.
-
-    - These batch files require dependencies to be installed at the paths specified in `libiio_build.bat`.
-
-3. The build process creates a timestamped folder containing all necessary DLLs and executables.
-
+1. Run the `build_libiio.bat` file located in the root of the repository. This will:
+    - Clean and Build the Libiio DLLs and executables for the C programs which will go to the build folder.
+2. Go to the [my_build](http://_vscodecontentref_/0) folder.
+3. Run `builds.bat` to collect all the required exes, dlls into a folder named with timestamp.
 4. Copy the folder contents to:
     ```
     C:\Program Files (x86)\libiio\lib\libiio
